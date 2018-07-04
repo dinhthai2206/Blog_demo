@@ -1,0 +1,22 @@
+<% provide(:title, "Edit comment") %>
+<h1>Edit your comment</h1>
+
+ <%= form_for @comment, method: :patch do |f| %>
+
+  <p>
+    <%= f.label :body %><br>
+    <%= f.text_area :body %>
+  </p>
+
+  <p>
+    <%= f.submit %>
+  </p>
+
+<% end %>
+
+<h1>Editing Comment</h1>
+
+<%= render 'form', comment: @comment %>
+
+<%= link_to 'Show', @comment %> |
+<%= link_to 'Back', comments_path %>
