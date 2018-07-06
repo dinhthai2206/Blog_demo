@@ -1,0 +1,2 @@
+$(".list-group").append("<%= escape_javascript(render('comments/comment_reload', comment: @comment)) %>");
+$("#new_comment #comment_body").val('');

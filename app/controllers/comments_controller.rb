@@ -1,33 +1,51 @@
 class CommentsController < ApplicationController
-  before_action :logged_in_user
-  before_action :current_user, only: [:destroy, :edit, :update]
+  def index
+    @comment = Comment.all
+  end
+
   def create
     @post = Post.find(params[:post_id])
-    @comment = @post.comments.create(params[:comment].permit(:body).merge(user_id: current_user.id))
-      flash[:success] = "Comment created"
-      redirect_to post_path(@post)
+    @comment = @post.comments.create(comment_params.merge(user_id: current_user.id))
+    respond_to do |format|
+      if @comment.save
+        format.html { redirect_to post_path(@comment.post), notice: "Comment created!" }
+        format.js
+      else
+        format.html { render :new }
+        format.js
+      end
+    end
+    redirect_to post_path(@post)
   end
- 
+
   def destroy
     @post = Post.find(params[:post_id])
     @comment = @post.comments.find(params[:id])
     @comment.destroy
-    flash[:success] = "Comment deleted"
     redirect_to post_path(@post)
   end
-  
+
   def edit
-    
+    @comment = Comment.find(params[:id])
   end
 
   def update
-    @post = Post.find(params[:id])
-    @comment = @post.comments.find(params[:id])
+    @comment = Comment.find(params[:id])
     if @comment.update_attributes(comment_params)
-      flash[:success] = "Post updated"
-      redirect_to @post
+      flash[:success] = "Comment updated"
+      redirect_to post_path(@comment.post)
     else
-      render 'edit'  
+      render 'edit'
     end
   end
+
+  def show
+  end
+
+  private
+  def comment_params
+    params.require(:comment).permit(:body)
+  end
+    
+
 end

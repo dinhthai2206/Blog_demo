@@ -2,18 +2,21 @@
 <h1>Edit your post</h1>
 
  <%= form_for @post, method: :patch do |f| %>
-  <p>
+  <div>
     <%= f.label :title %><br>
     <%= f.text_field :title %>
-  </p>
+  </div>
 
-  <p>
+  <div>
     <%= f.label :content %><br>
     <%= f.text_area :content %>
-  </p>
+  </div>
 
-  <p>
+  <div>
+    <%= f.file_field :picture %>
+
+  <div>
     <%= f.submit %>
-  </p>
+  </div>
 
 <% end %>
